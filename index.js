@@ -94,7 +94,7 @@ app.patch('/product/:id', async (req, res) => {
     const { productname, price, category } = req.body;
     console.log(`更新前 名前：${productname} 価格:${price} カテゴリ:${category}`);
     // 新規データを登録する
-    const updateProduct = await Product.findByIdAndUpdate(id, { name: productname, price: price, category: category });
+    const updateProduct = await Product.findByIdAndUpdate(id, { name: productname, price: price, category: category }, { runValidators: true });
     console.log(`更新後 名前：${updateProduct.name} 価格:${updateProduct.price} カテゴリ:${updateProduct.category}`);
     // products(一覧画面)にリダイレクト(ここにはURIを記載する)
     res.redirect('/products');

@@ -1,0 +1,2 @@
+# mongoose-with-express-code
+Udemy講座で作成したMogooseとNode.jsのWEBアプリケーションフレームワークのExpressを使って商品管理アプリを改良

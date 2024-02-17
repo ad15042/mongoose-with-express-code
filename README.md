@@ -20,9 +20,11 @@ WEB Developer BootcampというUdemy講座で作成した商品管理アプリ�
 | Express                | 4.18.2      |
 | ejs                    | 3.1.9     |
 | mongoose                | 8.1.1        |
-その他のパッケージのバージョンは package.json を参照してください
+
+- その他のパッケージのバージョンは package.json を参照してください
 
 ## ディレクトリ構成
+```
 .
 ├── node_modules
 ├── index.js
@@ -37,6 +39,7 @@ WEB Developer BootcampというUdemy講座で作成した商品管理アプリ�
         ├── new.ejs
         ├── show.ejs
         └── update.ejs
+```
 
 ## 開発準備（備忘録として残す）
 ### プロジェクトの作成からサーバの起動まで

@@ -25,9 +25,12 @@
             <div class="mb-3">
                 <label for="category" class="form-label">カテゴリ</label>
                 <select class="form-select" aria-label="Default select example" id="category" name="category">
-                    <option value="野菜" <%=singleProduct.category==="野菜" ?"selected" :""; %>>野菜</option>
-                    <option value="果物" <%=singleProduct.category==="果物" ?"selected" :"" ;%>>果物</option>
-                    <option value="乳製品" <%=singleProduct.category==="乳製品" ?"selected" :""; %>>乳製品</option>
+                    <% for (let category of categories) { %>
+                        <option value="<%= category %>" <%=singleProduct.category===category ?"selected" :""; %>>
+                            <%= category %>
+                        </option>
+                        <% } %>
+
                 </select>
             </div>
             <button class=" btn btn-primary">更新</button>

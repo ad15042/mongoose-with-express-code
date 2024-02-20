@@ -33,10 +33,22 @@ const categories = ['野菜', '果物', '乳製品'];
 
 // 商品一覧のルーティング
 app.get('/products', async (req, res) => {
-    // プロダクトを全件検索
-    const products = await Product.find({});
+    // フィルタリングするカテゴリ名を取得
+    const { fillterName } = req.query;
+    let products;
+    // カテゴリのフィルタリング
+    if (typeof fillterName === "undefined") {
+        // フィルタリングしない場合と解除ボタン押下時はプロダクトを全件検索
+        products = await Product.find({});
+    }
+    else {
+        // 指定のカテゴリで検索
+        products = await Product.find({ category: fillterName })
+
+    }
+
     // 一覧ベージに遷移
-    res.render('products/index', { products, categories });
+    res.render('products/index', { products, categories, fillterName: fillterName });
 })
 
 // 商品を新規登録するためのルーティング
@@ -75,17 +87,6 @@ app.get('/product/:id/delete', async (req, res) => {
     // 一覧ベージに遷移
     res.redirect('/products');
 })
-
-// カテゴリのフィルタリング
-app.get('/product/category', async (req, res) => {
-    // クエリストリングからフィルタリングするカテゴリ名を取得
-    const fillterName = req.query.name;
-    // 指定のカテゴリで検索
-    const products = await Product.find({ category: fillterName })
-    // カテゴリでフィルタされたプロダクトを一覧ベージに渡す
-    res.render('products/index', { products, categories });
-})
-
 
 
 // 商品登録画面で登録ボタンを押したときのルーティング

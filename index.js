@@ -36,7 +36,7 @@ app.get('/products', async (req, res) => {
     // プロダクトを全件検索
     const products = await Product.find({});
     // 一覧ベージに遷移
-    res.render('products/index', { products });
+    res.render('products/index', { products, categories });
 })
 
 // 商品を新規登録するためのルーティング
@@ -74,6 +74,16 @@ app.get('/product/:id/delete', async (req, res) => {
     console.log(`${singleProduct.name}を削除しました。`)
     // 一覧ベージに遷移
     res.redirect('/products');
+})
+
+// カテゴリのフィルタリング
+app.get('/product/category', async (req, res) => {
+    // クエリストリングからフィルタリングするカテゴリ名を取得
+    const fillterName = req.query.name;
+    // 指定のカテゴリで検索
+    const products = await Product.find({ category: fillterName })
+    // カテゴリでフィルタされたプロダクトを一覧ベージに渡す
+    res.render('products/index', { products, categories });
 })
 
 

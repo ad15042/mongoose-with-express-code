@@ -12,6 +12,29 @@
 <body>
     <div class="container">
         <h1 class="my-3">Product List</h1>
+        <!-- カテゴリのフィルタリング -->
+        <form action="/product/category" method="GET">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="categorySelect">カテゴリ</label>
+                        <select class="form-select" id="categorySelect" name="name">
+                            <% for (let category of categories) { %>
+                                <option value="<%= category %>">
+                                    <%= category %>
+                                </option>
+                                <% } %>
+                        </select>
+                        <button class="btn btn-primary">OK</button>
+                        <!-- 更新ボタン -->
+                        <button class="btn btn-secondary" type="button"
+                            onclick="location.href = '/products'">解除</button>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
         <table class="table table-striped table-hover">
             <thead>
                 <tr>

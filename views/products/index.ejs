@@ -13,14 +13,14 @@
     <div class="container">
         <h1 class="my-3">Product List</h1>
         <!-- カテゴリのフィルタリング -->
-        <form action="/product/category" method="GET">
+        <form action="/products" method="GET">
             <div class="row">
                 <div class="col-md-6">
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="categorySelect">カテゴリ</label>
-                        <select class="form-select" id="categorySelect" name="name">
+                        <select class="form-select" id="categorySelect" name="fillterName">
                             <% for (let category of categories) { %>
-                                <option value="<%= category %>">
+                                <option value="<%= category %>" <%=category===fillterName ? "selected" :"" ;%>>
                                     <%= category %>
                                 </option>
                                 <% } %>

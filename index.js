@@ -28,17 +28,21 @@ app.set('view engine', 'ejs');
 // POSTメソッドをPATCHメソッドでオーバーライドする
 app.use(methodOverride('_method')) // _methodは何でも良いが、formのactionで渡すクエリストリングと同じにすること。
 
+// カテゴリを定義
+const categories = ['野菜', '果物', '乳製品'];
+
 // 商品一覧のルーティング
 app.get('/products', async (req, res) => {
     // プロダクトを全件検索
     const products = await Product.find({});
     // 一覧ベージに遷移
-    res.render('products/index', { products });
+    res.render('products/index', { products, categories });
 })
 
 // 商品を新規登録するためのルーティング
 app.get('/product/new', (req, res) => {
-    res.render('products/new');
+    //　カテゴリオブジェクトを渡す
+    res.render('products/new', { categories });
 })
 
 // 商品を更新するためのルーティング
@@ -47,8 +51,8 @@ app.get('/product/:id/update', async (req, res) => {
     const { id } = req.params;
     // idをキーに更新対象のプロダクトを検索
     const singleProduct = await Product.findById(id).exec();
-    // 詳細ページに遷移
-    res.render('products/update', { singleProduct });
+    // 詳細ページに遷移(カテゴリオブジェクトも渡す)
+    res.render('products/update', { singleProduct, categories });
 })
 
 // 商品詳細画面のルーティング
@@ -72,6 +76,16 @@ app.get('/product/:id/delete', async (req, res) => {
     res.redirect('/products');
 })
 
+// カテゴリのフィルタリング
+app.get('/product/category', async (req, res) => {
+    // クエリストリングからフィルタリングするカテゴリ名を取得
+    const fillterName = req.query.name;
+    // 指定のカテゴリで検索
+    const products = await Product.find({ category: fillterName })
+    // カテゴリでフィルタされたプロダクトを一覧ベージに渡す
+    res.render('products/index', { products, categories });
+})
+
 
 
 // 商品登録画面で登録ボタンを押したときのルーティング
@@ -92,10 +106,10 @@ app.patch('/product/:id', async (req, res) => {
     const { id } = req.params;
     // リクエストボディに含まれるデータを取得
     const { productname, price, category } = req.body;
-    console.log(`更新前 名前：${productname} 価格:${price} カテゴリ:${category}`);
+    console.log(`更新後 名前：${productname} 価格:${price} カテゴリ:${category}`);
     // 新規データを登録する
     const updateProduct = await Product.findByIdAndUpdate(id, { name: productname, price: price, category: category }, { runValidators: true });
-    console.log(`更新後 名前：${updateProduct.name} 価格:${updateProduct.price} カテゴリ:${updateProduct.category}`);
+    console.log(`更新前 名前：${updateProduct.name} 価格:${updateProduct.price} カテゴリ:${updateProduct.category}`);
     // products(一覧画面)にリダイレクト(ここにはURIを記載する)
     res.redirect('/products');
 })
